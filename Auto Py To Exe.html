@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<!-- saved from url=(0033)http://localhost:59134/index.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Auto Py To Exe</title>
+        <script>
+            // Provided for type checking
+            window.eel = {
+                initialise: () => ({
+                    filename: null,
+                    options: [],
+                    suppliedUiConfiguration: {},
+                    warnings: [],
+                    pathSeparator: '',
+                    defaultOutputFolder: ''
+                }),
+                does_file_exist: (path) => false,
+                does_folder_exist: (path) => false,
+                ask_file: (file_type) => "",
+                ask_files: () => [],
+                ask_folder: () => "",
+                open_folder_in_explorer: (path) => {},
+                will_packaging_overwrite_existing: (file_path, one_file, output_folder) => true,
+                package: (command, non_pyinstaller_options) => {},
+                import_configuration: () => {},
+                export_configuration: (configuration) => {}
+            }
+        </script>
+        <script type="text/javascript" src="./Auto Py To Exe_files/eel.js.Download"></script>
+        <script type="text/javascript" src="./Auto Py To Exe_files/constants.js.Download"></script>
+        <script type="text/javascript" src="./Auto Py To Exe_files/i18n.js.Download"></script>
+        <script type="text/javascript" src="./Auto Py To Exe_files/initialise.js.Download"></script>
+        <script type="text/javascript" src="./Auto Py To Exe_files/configuration.js.Download"></script>
+        <script type="text/javascript" src="./Auto Py To Exe_files/staticEvents.js.Download"></script>
+        <script type="text/javascript" src="./Auto Py To Exe_files/interface.js.Download"></script>
+        <script type="text/javascript" src="./Auto Py To Exe_files/utils.js.Download"></script>
+        <script type="text/javascript" src="./Auto Py To Exe_files/messages.js.Download"></script>
+        <script type="text/javascript" src="./Auto Py To Exe_files/packaging.js.Download"></script>
+        <script type="text/javascript" src="./Auto Py To Exe_files/importExport.js.Download"></script>
+        <link rel="stylesheet" href="./Auto Py To Exe_files/general.css">
+        <link rel="stylesheet" href="./Auto Py To Exe_files/main.css">
+    <style type="text/css"></style></head>
+
+    <body>
+        <div class="mid cc_cursor">
+            <div id="header">
+                <div class="title cc_cursor">
+                    <a href="https://github.com/brentvollebregt/auto-py-to-exe" target="_blank"><img src="./Auto Py To Exe_files/favicon.ico"></a>
+                    <a href="https://github.com/brentvollebregt/auto-py-to-exe" target="_blank"><h1>Auto Py to Exe</h1></a>
+                </div>
+                <div class="extra-links">
+                    <a href="https://github.com/brentvollebregt/auto-py-to-exe" target="_blank">
+                        GitHub
+                        <img src="./Auto Py To Exe_files/favicon.png" alt="GitHub favicon">
+                    </a>
+                    <a href="https://nitratine.net/blog/post/issues-when-using-auto-py-to-exe/?utm_source=auto_py_to_exe&amp;utm_medium=application_link&amp;utm_campaign=auto_py_to_exe_help&amp;utm_content=top" target="_blank">
+                        <span data-i18n="ui.links.helpPost">Help Post</span>
+                        <img src="./Auto Py To Exe_files/favicon-384x384.png" alt="Nitratine favicon">
+                    </a>
+                    <span>
+                        <label for="language-selection"><small>Language: </small></label>
+                        <select id="language-selection"><option value="en">English</option><option value="zh">Chinese Simplified (简体中文)</option></select>
+                    </span>
+                </div>
+            </div>
+
+            <div id="warnings"></div>
+
+            <div>
+                <h2 data-i18n="ui.title.scriptLocation">Script Location</h2>
+                <div class="filepath-browse-layout cc_cursor">
+                    <input id="entry-script" placeholder="Path to file" required="" data-i18n_placeholder="ui.placeholders.pathToFile" style="">
+                    <button id="entry-script-search" data-i18n="ui.button.browse">Browse</button>
+                </div>
+            </div>
+
+            <div>
+                <h2>
+                    <span data-i18n="ui.title.oneFile">Onefile</span>
+                    <small>(--onedir / --onefile)</small>
+                </h2>
+                <div>
+                    <button id="one-directory-button" class="large cc_pointer unselected" data-i18n="ui.button.oneDirectory">One Directory</button>
+                    <button id="one-file-button" class="large selected cc_pointer" data-i18n="ui.button.oneFile">One File</button>
+                </div>
+            </div>
+
+            <div>
+                <h2>
+                    <span data-i18n="ui.title.consoleWindow">Console Window</span>
+                    <small>(--console / --windowed)</small>
+                </h2>
+                <div>
+                    <button id="console-based-button" class="large unselected" data-i18n="ui.button.consoleBased">Console Based</button>
+                    <button id="window-based-button" class="large cc_pointer selected" data-i18n="ui.button.windowBased">Window Based (hide the console)</button>
+                </div>
+            </div>
+
+            <div id="section-icon" data-expanded="">
+                <div class="header noselect cc_pointer" onclick="expandSection(&#39;icon&#39;)">
+                    <img src="./Auto Py To Exe_files/chevron-square-up.svg" alt="Icon Section Chevron" style="transform: rotate(0deg);">
+                    <h2>
+                        <span data-i18n="ui.title.icon">Icon</span>
+                        <small>(--icon)</small>
+                    </h2>
+                </div>
+                <div class="content" style="display: block;">
+                    <div class="filepath-browse-layout">
+                        <input id="icon-path" placeholder=".ico file" data-i18n_placeholder="ui.placeholders.icoFile">
+                        <button id="icon-path-search" data-i18n="ui.button.browse">Browse</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="section-additional-files" data-expanded="">
+                <div class="header noselect" onclick="expandSection(&#39;additional-files&#39;)">
+                    <img src="./Auto Py To Exe_files/chevron-square-up.svg" alt="Additional Files Section Chevron" style="transform: rotate(0deg);">
+                    <h2>
+                        <span data-i18n="ui.title.additionalFiles">Additional Files</span>
+                        <small>(--add-data)</small>
+                    </h2>
+                </div>
+                <div class="content cc_cursor" style="display: block;">
+                    <div id="datas-add-buttons">
+                        <button id="additional-files-add-files-button" data-i18n="ui.button.addFiles">Add Files</button>
+                        <button id="additional-files-add-folder" data-i18n="ui.button.addFolder">Add Folder</button>
+                        <button id="additional-files-add-blank" data-i18n="ui.button.addBlank">Add Blank</button>
+                    </div>
+                    <div id="datas-list"><div class="dual-value"><input><input><img src="./Auto Py To Exe_files/remove.svg"></div><div class="dual-value cc_cursor"><input><input><img src="./Auto Py To Exe_files/remove.svg"></div><div class="dual-value"><input><input><img src="./Auto Py To Exe_files/remove.svg"></div></div>
+                    <p id="onefileAdditionalFilesNote" class="note cc_cursor" style="display: block;" data-i18n="ui.notes.oneFileAdditionalFilesNote">Be careful when using additional files with onefile mode;
+<a href="https://stackoverflow.com/a/13790741/" style="text-decoration: none;">read this</a>
+and update your code to work with PyInstaller.</p>
+                    <p class="note" data-i18n="ui.notes.rootDirectory">If you want to put files in the root directory, put a period (.) in the destination.</p>
+                </div>
+            </div>
+
+            <div id="section-advanced" data-expanded="">
+                <div class="header noselect" onclick="expandSection(&#39;advanced&#39;)">
+                    <img src="./Auto Py To Exe_files/chevron-square-up.svg" alt="Advanced Section Chevron" style="transform: rotate(0deg);">
+                    <h2 data-i18n="ui.title.advanced">Advanced</h2>
+                </div>
+                <div class="content" style="display: block;"><div><h3 class="noselect cc_cursor" data-i18n="dynamic.title.generalOptions">General Options</h3><div class="option-container input"><span>--name<span title="Name to assign to the bundled app and spec file (default: first script&#39;s basename)" class="info_icon"></span></span><input placeholder="VALUE"></div><div class="option-container input with-browse"><span>--upx-dir<span title="Path to UPX utility (default: search the execution path)" class="info_icon"></span></span><input placeholder="VALUE"><button data-i18n="dynamic.button.browseForFolder">Browse for Folder</button></div><div class="option-container switch"><span>--ascii<span title="Do not include unicode encoding support (default: included if available)" class="info_icon"></span></span><button data-i18n="dynamic.button.enable" class="unselected">Enable</button></div><div class="option-container switch"><span>--clean<span title="Clean PyInstaller cache and remove temporary files before building." class="info_icon"></span></span><button data-i18n="dynamic.button.enable" class="unselected">Enable</button></div><div class="option-container choice"><span>--log-level<span title="Amount of detail in build-time console messages. LEVEL may be one of TRACE, DEBUG, INFO, WARN, ERROR, CRITICAL (default: %(default)s)." class="info_icon"></span></span><select><option></option><option value="TRACE">TRACE</option><option value="DEBUG">DEBUG</option><option value="INFO">INFO</option><option value="WARN">WARN</option><option value="ERROR">ERROR</option><option value="CRITICAL">CRITICAL</option></select></div></div><div><h3 class="noselect" data-i18n="dynamic.title.whatToBundleWhereToSearch">What to bundle, where to search</h3><div class="option-container multiple-input"><span>--add-binary<span title="Additional binary files to be added to the executable. See the ``--add-data`` option for more details. This option can be used multiple times." class="info_icon"></span></span><img src="./Auto Py To Exe_files/plus.svg"><div></div></div><div class="option-container multiple-input"><span>--paths<span title="A path to search for imports (like using PYTHONPATH). Multiple paths are allowed, separated by &#39;;&#39;, or use this option multiple times" class="info_icon"></span></span><img src="./Auto Py To Exe_files/plus.svg"><div></div></div><div class="option-container multiple-input"><span>--hidden-import<span title="Name an import not visible in the code of the script(s). This option can be used multiple times." class="info_icon"></span></span><img src="./Auto Py To Exe_files/plus.svg"><div></div></div><div class="option-container multiple-input"><span>--additional-hooks-dir<span title="An additional path to search for hooks. This option can be used multiple times." class="info_icon"></span></span><img src="./Auto Py To Exe_files/plus.svg"><div></div></div><div class="option-container multiple-input"><span>--runtime-hook<span title="Path to a custom runtime hook file. A runtime hook is code that is bundled with the executable and is executed before any other code or module to set up special features of the runtime environment. This option can be used multiple times." class="info_icon"></span></span><img src="./Auto Py To Exe_files/plus.svg"><div></div></div><div class="option-container multiple-input cc_cursor"><span>--exclude-module<span title="Optional module or package (the Python name, not the path name) that will be ignored (as though it was not found). This option can be used multiple times." class="info_icon"></span></span><img src="./Auto Py To Exe_files/plus.svg"><div></div></div><div class="option-container input cc_cursor"><span>--key<span title="The key used to encrypt Python bytecode." class="info_icon"></span></span><input placeholder="VALUE"></div></div><div><h3 class="noselect" data-i18n="dynamic.title.howToGenerate">How to generate</h3><div class="option-container choice cc_cursor"><span>--debug<span title="Provide assistance with debugging a frozen
+application. This argument may be provided multiple
+times to select several of the following options.
+
+- all: All three of the following options.
+
+- imports: specify the -v option to the underlying
+  Python interpreter, causing it to print a message
+  each time a module is initialized, showing the
+  place (filename or built-in module) from which it
+  is loaded. See
+  https://docs.python.org/3/using/cmdline.html#id4.
+
+- bootloader: tell the bootloader to issue progress
+  messages while initializing and starting the
+  bundled app. Used to diagnose problems with
+  missing imports.
+
+- noarchive: instead of storing all frozen Python
+  source files as an archive inside the resulting
+  executable, store them as files in the resulting
+  output directory.
+
+" class="info_icon"></span></span><select><option></option><option value="all">all</option><option value="imports">imports</option><option value="bootloader">bootloader</option><option value="noarchive">noarchive</option></select></div><div class="option-container switch"><span>--strip<span title="Apply a symbol-table strip to the executable and shared libs (not recommended for Windows)" class="info_icon"></span></span><button data-i18n="dynamic.button.enable" class="unselected">Enable</button></div><div class="option-container switch cc_cursor"><span>--noupx<span title="Do not use UPX even if it is available (works differently between Windows and *nix)" class="info_icon"></span></span><button data-i18n="dynamic.button.enable" class="unselected">Enable</button></div><div class="option-container multiple-input"><span>--upx-exclude<span title="Prevent a binary from being compressed when using upx. This is typically used if upx corrupts certain binaries during compression. FILE is the filename of the binary without path. This option can be used multiple times." class="info_icon"></span></span><img src="./Auto Py To Exe_files/plus.svg"><div></div></div></div><div><h3 class="noselect" data-i18n="dynamic.title.windowsSpecificOptions">Windows specific options</h3><div class="option-container input with-browse"><span>--version-file<span title="add a version resource from FILE to the exe" class="info_icon"></span></span><input placeholder="FILE"><button data-i18n="dynamic.button.browseForFile">Browse for File</button></div><div class="option-container input with-browse"><span>--manifest<span title="add manifest FILE or XML to the exe" class="info_icon"></span></span><input placeholder="&lt;FILE or XML&gt;"><button data-i18n="dynamic.button.browseForFile">Browse for File</button></div><div class="option-container multiple-input"><span>--resource<span title="Add or update a resource to a Windows executable. The RESOURCE is one to four items, FILE[,TYPE[,NAME[,LANGUAGE]]]. FILE can be a data file or an exe/dll. For data files, at least TYPE and NAME must be specified. LANGUAGE defaults to 0 or may be specified as wildcard * to update all resources of the given TYPE and NAME. For exe/dll files, all resources from FILE will be added/updated to the final executable if TYPE, NAME and LANGUAGE are omitted or specified as wildcard *.This option can be used multiple times." class="info_icon"></span></span><img src="./Auto Py To Exe_files/plus.svg"><div></div></div><div class="option-container switch"><span>--uac-admin<span title="Using this option creates a Manifest which will request elevation upon application restart." class="info_icon"></span></span><button data-i18n="dynamic.button.enable" class="unselected">Enable</button></div><div class="option-container switch"><span>--uac-uiaccess<span title="Using this option allows an elevated application to work with Remote Desktop." class="info_icon"></span></span><button data-i18n="dynamic.button.enable" class="unselected">Enable</button></div></div><div><h3 class="noselect" data-i18n="dynamic.title.windowsSideBySideAssemblySearchingOptions">Windows Side-by-side Assembly searching options (advanced)</h3><div class="option-container switch"><span>--win-private-assemblies<span title="Any Shared Assemblies bundled into the application will be changed into Private Assemblies. This means the exact versions of these assemblies will always be used, and any newer versions installed on user machines at the system level will be ignored." class="info_icon"></span></span><button data-i18n="dynamic.button.enable" class="unselected">Enable</button></div><div class="option-container switch"><span>--win-no-prefer-redirects<span title="While searching for Shared or Private Assemblies to bundle into the application, PyInstaller will prefer not to follow policies that redirect to newer versions, and will try to bundle the exact versions of the assembly." class="info_icon"></span></span><button data-i18n="dynamic.button.enable" class="unselected">Enable</button></div></div><div><h3 class="noselect" data-i18n="dynamic.title.macOsxSpecificOptions">Mac OS X specific options</h3><div class="option-container input"><span>--osx-bundle-identifier<span title="Mac OS X .app bundle identifier is used as the default unique program name for code signing purposes. The usual form is a hierarchical name in reverse DNS notation. For example: com.mycompany.department.appname (default: first script&#39;s basename)" class="info_icon"></span></span><input placeholder="VALUE"></div></div><div><h3 class="noselect" data-i18n="dynamic.title.rarelyUsedSpecialOptions">Rarely used special options</h3><div class="option-container input"><span>--runtime-tmpdir<span title="Where to extract libraries and support files in `onefile`-mode. If this option is given, the bootloader will ignore any temp-folder location defined by the run-time OS. The ``_MEIxxxxxx``-folder will be created here. Please use this option only if you know what you are doing." class="info_icon"></span></span><input placeholder="PATH"></div><div class="option-container switch"><span>--bootloader-ignore-signals<span title="Tell the bootloader to ignore signals rather than forwarding them to the child process. Useful in situations where e.g. a supervisor process signals both the bootloader and child (e.g. via a process group) to avoid signalling the child twice." class="info_icon"></span></span><button data-i18n="dynamic.button.enable" class="unselected">Enable</button></div></div></div>
+            </div>
+
+            <div id="section-settings" data-expanded="">
+                <div class="header noselect" onclick="expandSection(&#39;settings&#39;)">
+                    <img src="./Auto Py To Exe_files/chevron-square-up.svg" alt="Advanced Section Chevron" style="transform: rotate(0deg);">
+                    <h2 data-i18n="ui.title.settings">Settings</h2>
+                </div>
+                <div class="content" style="display: block;">
+                    <div>
+                        <h3 data-i18n="ui.title.specificOptions">auto-py-to-exe Specific Options</h3>
+                        <div class="option-container input">
+                            <span>
+                                <span data-i18n="ui.title.outputDirectory">Output Directory</span>
+                                <span title="The directory to put the output in. Will be created if it doesn&#39;t exist" class="info_icon" data-i18n_title="ui.helpText.outputDirectory"></span>
+                            </span>
+                            <div class="filepath-browse-layout">
+                                <input id="output-directory" placeholder="DIRECTORY" data-i18n_placeholder="ui.placeholders.directory">
+                                <button id="output-directory-search" data-i18n="ui.button.browse">Browse</button>
+                            </div>
+                        </div>
+                        <div class="option-container switch">
+                            <span>
+                                <span data-i18n="ui.title.increaseRecursionLimit">Increase Recursion Limit</span>
+                                <span title="Having this enabled will set the recursion limit to 5000 using sys.setrecursionlimit(5000)." class="info_icon" data-i18n_title="ui.helpText.increaseRecursionLimit"></span>
+                            </span>
+                            <button id="recursion-limit-switch" data-i18n="ui.button.enable">Enable</button>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 data-i18n="ui.title.manuallyProvideOptions">Manually Provide Options</h3>
+                        <div class="option-container input">
+                            <span>
+                                <span data-i18n="ui.title.manualArgumentInput">Manual Argument Input</span>
+                                <span title="Inject raw text into the generated command." class="info_icon" data-i18n_title="ui.helpText.manualArgumentInput"></span>
+                            </span>
+                            <input id="raw-arguments" placeholder="ARGUMENTS" data-i18n_placeholder="ui.placeholders.arguments">
+                        </div>
+                    </div>
+                    <div>
+                        <h3 data-i18n="ui.title.configuration">Configuration</h3>
+                        <button id="configuration-import" data-i18n="ui.button.importConfig">Import Config From JSON File</button>
+                        <button id="configuration-export" data-i18n="ui.button.exportConfig">Export Config To JSON File</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="current-command">
+                <h2 data-i18n="ui.title.currentCommand">Current Command</h2>
+                <textarea readonly=""></textarea>
+            </div>
+
+            <div id="output">
+                <h2 data-i18n="ui.title.output">Output</h2>
+                <textarea readonly=""></textarea>
+            </div>
+
+            <div id="common-issue-link" data-i18n="ui.notes.somethingWrongWithOutput">Something wrong with your exe? Read
+<a href="https://nitratine.net/blog/post/issues-when-using-auto-py-to-exe/?utm_source=auto_py_to_exe&amp;utm_medium=application_link&amp;utm_campaign=auto_py_to_exe_help&amp;utm_content=bottom" target="_blank">
+    this post on how to fix common issues
+</a>
+for possible solutions.</div>
+
+            <div id="package-button-wrapper">
+                <button id="package-button" data-i18n="ui.button.convert">Convert .py to .exe</button>
+                <button id="open-output-folder-button" data-i18n="ui.button.openOutputFolder">Open Output Folder</button>
+            </div>
+        </div>
+    
+
+</body></html>
